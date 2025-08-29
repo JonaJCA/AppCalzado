@@ -23,3 +23,4 @@ Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('/tallas', App\Http\Controllers\TallaController::class);

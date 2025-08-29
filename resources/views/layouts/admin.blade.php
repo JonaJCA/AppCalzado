@@ -40,6 +40,30 @@
             display: flex;
             align-items: center;
         }
+        .nav-dropdown-items {
+            display: none;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-dropdown.show .nav-dropdown-items {
+            display: block !important;
+        }
+
+        .nav-dropdown-items .nav-link {
+            padding-left: 3rem;
+        }
+
+        /* Estilo del chevron */
+        .nav-chevron {
+            margin-left: auto;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Rotar chevron cuando está expandido */
+        .nav-dropdown.show .nav-chevron {
+            transform: rotate(90deg);
+        }
         .sidebar .nav-link:hover {
             color: #321fdb;
             background-color: #f0f4f7;
@@ -124,6 +148,7 @@
 
     <!-- CoreUI JavaScript -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/coreui.min.js') }}"></script>
     <script>
         // Función para toggle del sidebar
         function toggleSidebar() {
@@ -139,6 +164,37 @@
                 }
             }
         }
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.nav-dropdown-toggle');
+            
+            dropdownToggles.forEach(function(toggle) {
+                const parent = toggle.closest('.nav-dropdown');
+                const dropdownItems = parent.querySelector('.nav-dropdown-items');
+                
+                // Verificar si hay una opción activa dentro del dropdown al cargar
+                const activeItem = dropdownItems.querySelector('.nav-link.active');
+                if (activeItem) {
+                    parent.classList.add('show');
+                    dropdownItems.style.display = 'block';
+                }
+                
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Toggle la clase 'show' en el parent
+                    parent.classList.toggle('show');
+                    
+                    // Toggle display del submenu
+                    if (parent.classList.contains('show')) {
+                        dropdownItems.style.display = 'block';
+                    } else {
+                        dropdownItems.style.display = 'none';
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
