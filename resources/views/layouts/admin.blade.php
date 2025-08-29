@@ -5,16 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'AppCalzado - Admin')</title>
-    
     <!-- CoreUI CSS -->
     <link href="{{ asset('assets/css/coreui.min.css') }}" rel="stylesheet">
-    
     <!-- CoreUI Icons (CDN temporal para iconos) -->
     <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.1/css/all.min.css" rel="stylesheet">
-    
-    <!-- Estilos adicionales -->
-    @stack('styles')
-    
+
     <style>
         html, body {
             height: 100%;
@@ -36,6 +31,9 @@
         .sidebar.sidebar-narrow .nav-link span {
             display: none;
         }
+        .sidebar.sidebar-narrow .sidebar-brand {
+            padding: 1.71rem 0.5rem;
+        }
         .sidebar .nav-link {
             padding: 0.75rem 1rem;
             color: #768192;
@@ -56,8 +54,12 @@
             text-align: center;
             flex-shrink: 0;
         }
+        .sidebar.sidebar-narrow .nav-link {
+            padding: 0.75rem 0.5rem;
+            justify-content: center;
+        }
         .sidebar-brand {
-            padding: 1rem;
+            padding: 0.95rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -66,6 +68,20 @@
         .sidebar-brand strong {
             font-size: 1.125rem;
             color: #303c54;
+        }
+        .sidebar.sidebar-narrow .sidebar-brand::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 24px;
+            background-image: url('{{ asset('assets/images/shoe-prints-solid-full.svg') }}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .sidebar.sidebar-narrow .sidebar-brand {
+            padding: 1rem 0.5rem;
+            justify-content: center;
         }
         .wrapper {
             margin-left: 256px;
@@ -91,40 +107,30 @@
     <div class="app">
         <!-- Sidebar Component -->
         @include('components.sidebar')
-
         <!-- Main content wrapper -->
         <div class="wrapper d-flex flex-column min-vh-100">
-            
             <!-- Navbar Component -->
             @include('components.navbar')
-
             <!-- Page Content -->
             <div class="body flex-grow-1">
                 <div class="container-fluid">
                     @yield('content')
                 </div>
             </div>
-
-            <!-- Footer Component (próximo paso) -->
+            <!-- Footer Component -->
             @include('components.footer')
         </div>
     </div>
 
     <!-- CoreUI JavaScript -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    
-    <!-- Scripts adicionales -->
-    @stack('scripts')
-    
     <script>
         // Función para toggle del sidebar
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             const wrapper = document.querySelector('.wrapper');
-            
             if (sidebar && wrapper) {
                 sidebar.classList.toggle('sidebar-narrow');
-                
                 // Ajustar margen del contenido principal
                 if (sidebar.classList.contains('sidebar-narrow')) {
                     wrapper.style.marginLeft = '56px';
@@ -133,11 +139,6 @@
                 }
             }
         }
-        
-        // Inicializar al cargar
-        document.addEventListener('DOMContentLoaded', function () {
-            // Cualquier inicialización adicional
-        });
     </script>
 </body>
 </html>
