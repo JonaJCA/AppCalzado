@@ -5,16 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'AppCalzado - Admin')</title>
-    
     <!-- CoreUI CSS -->
     <link href="{{ asset('assets/css/coreui.min.css') }}" rel="stylesheet">
-    
     <!-- CoreUI Icons (CDN temporal para iconos) -->
     <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.1/css/all.min.css" rel="stylesheet">
-    
-    <!-- Estilos adicionales -->
-    @stack('styles')
-    
+
     <style>
         html, body {
             height: 100%;
@@ -112,9 +107,6 @@
 
     <!-- CoreUI JavaScript -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    
-    <!-- Scripts adicionales -->
-    @stack('scripts')
     
     <script>
         // Función para toggle del sidebar
