@@ -4,18 +4,10 @@
             <i class="cil-menu"></i>
         </button>
         
-        <!-- Breadcrumb opcional -->
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Inicio</a></li>
-                @yield('breadcrumb')
-            </ol>
-        </nav>
-        
         <ul class="header-nav ms-auto">
             <!-- Notificaciones -->
             <li class="nav-item dropdown">
-                <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link py-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <i class="cil-bell"></i>
                     <span class="badge badge-sm bg-danger">3</span>
                 </a>
@@ -34,11 +26,11 @@
             
             <!-- Usuario -->
             <li class="nav-item dropdown">
-                <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link py-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <div class="avatar avatar-md">
                         <i class="cil-user"></i>
                     </div>
-                    <span class="ms-2">Admin</span>
+                    <span class="ms-2">{{ Auth::user()->name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <h6 class="dropdown-header">Cuenta</h6>
@@ -49,9 +41,12 @@
                         <i class="cil-settings"></i> Configuración
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="cil-account-logout"></i> Cerrar Sesión
                     </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </div>
             </li>
         </ul>
