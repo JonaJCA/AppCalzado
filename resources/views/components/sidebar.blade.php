@@ -7,8 +7,7 @@
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-                    <i class="nav-icon cil-speedometer"></i>
-                    <span>Dashboard</span>
+                    <i class="nav-icon cil-speedometer"></i> Dashboard
                 </a>
             </li>
             <li class="nav-item nav-dropdown">
@@ -20,16 +19,14 @@
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('tallas.*') ? 'active' : '' }}" href="{{ route('tallas.index') }}">
-                            <span class="nav-icon"></span>
-                            <span>Tallas</span>
+                            <i class="nav-icon cil-basket"></i> Tallas
                         </a>
                     </li>
                 </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <i class="nav-icon cil-basket"></i>
-                    <span>Productos</span>
+                    <i class="nav-icon cil-basket"></i> Productos
                 </a>
             </li>
             <li class="nav-item">

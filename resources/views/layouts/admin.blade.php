@@ -59,18 +59,22 @@
             font-size: 12px;
             transition: transform 0.3s ease;
         }
-
         /* Rotar chevron cuando está expandido */
         .nav-dropdown.show .nav-chevron {
             transform: rotate(90deg);
         }
+        .sidebar .nav-dropdown-items {
+            list-style: none;
+            padding-left: 0;
+            margin-left: 0;
+        }
         .sidebar .nav-link:hover {
-            color: #321fdb;
-            background-color: #f0f4f7;
+            color: #e8e7ec;
+            background-color: #3540d3;
         }
         .sidebar .nav-link.active {
-            color: #321fdb;
-            background-color: #e7f1ff;
+            color: #e8e7ec;
+            background-color: #3540d3;
         }
         .sidebar .nav-icon {
             margin-right: 0.5rem;
