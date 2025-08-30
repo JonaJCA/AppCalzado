@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Talla;
 use Illuminate\Http\Request;
 
 class TallaController extends Controller
@@ -11,20 +12,28 @@ class TallaController extends Controller
         return view('base.tallas.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('base.tallas.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        
+            $validated = $request->validate([
+                'numero' => 'required|integer|min:15|unique:tallas,numero',
+            ], [
+                'numero.required' => 'El número de talla es obligatorio.',
+                'numero.integer'  => 'El número de talla debe ser un valor entero.',
+                'numero.min'      => 'El número de talla no puede ser negativo.',
+                'numero.unique'   => 'Esta talla ya está registrada.',
+            ]);
+            Talla::create($validated);
+
+            return redirect()
+                ->route('tallas.index')
+                ->with('success', 'Talla registrada correctamente.');
+        
     }
 
     /**

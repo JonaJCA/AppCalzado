@@ -168,7 +168,6 @@
                 }
             }
         }
-
         
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownToggles = document.querySelectorAll('.nav-dropdown-toggle');
@@ -200,5 +199,7 @@
             });
         });
     </script>
+    <script src="{{ asset('assets/js/sweetalert2@11.js') }}"></script>
+    @include('partials.alerts')
 </body>
 </html>

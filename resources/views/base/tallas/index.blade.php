@@ -10,8 +10,12 @@
                 <h4 class="card-title">Listado Tallas - AppCalzado</h4>
             </div>
             <div class="card-body">
-                <p>¡Realiza el registro de las tallas disponibles en el sistema!</p>
-                
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0">¡Revisa el listado de las tallas disponibles en el sistema!</p>
+                    <a href="{{ route('tallas.create') }}" class="btn btn-success btn-sm mb-2">
+                        <i class="cil-save"></i> Registrar Nuevo
+                    </a>
+                </div>
                 <!-- Tabla de ejemplo -->
                 <div class="card">
                     <div class="card-header">
