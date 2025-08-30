@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TallaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,12 +17,16 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('/tallas', App\Http\Controllers\TallaController::class);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/tallas/data', [TallaController::class, 'obtenerTallas'])->name('tallas.data');
+Route::resource('/tallas', TallaController::class);
+
+
+Route::get('/prueba-controller', [TallaController::class, 'pruebaController']);

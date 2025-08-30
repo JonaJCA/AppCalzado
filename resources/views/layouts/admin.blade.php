@@ -7,6 +7,7 @@
     <title>@yield('title', 'AppCalzado - Admin')</title>
     <!-- CoreUI CSS -->
     <link href="{{ asset('assets/css/coreui.min.css') }}" rel="stylesheet">
+    @yield('css')
     <!-- CoreUI Icons (CDN temporal para iconos) -->
     <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.1/css/all.min.css" rel="stylesheet">
 
@@ -200,6 +201,7 @@
         });
     </script>
     <script src="{{ asset('assets/js/sweetalert2@11.js') }}"></script>
+    @yield('js')
     @include('partials.alerts')
 </body>
 </html>
