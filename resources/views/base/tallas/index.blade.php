@@ -98,5 +98,83 @@
                 pageLength: 10
             });
         });
+
+        //Función para eliminar logicamente
+        function confirmarEliminacion(id) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta talla se marcará como inactiva",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Crear formulario dinámico para enviar DELETE
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/AppCalzado/public/tallas/${id}`;
+                    
+                    // Token CSRF
+                    const csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = '_token';
+                    csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    
+                    // Method spoofing para DELETE
+                    const methodField = document.createElement('input');
+                    methodField.type = 'hidden';
+                    methodField.name = '_method';
+                    methodField.value = 'DELETE';
+                    
+                    // Agregar campos al formulario
+                    form.appendChild(csrfToken);
+                    form.appendChild(methodField);
+                    
+                    // Enviar formulario
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+
+        //Funcion para restaura un registro
+        function confirmarRestauracion(id) {
+            Swal.fire({
+                title: '¿Restaurar talla?',
+                text: "Esta talla se marcará como activa nuevamente",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, restaurar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/AppCalzado/public/tallas/${id}/restaurar`;
+                    
+                    // Token CSRF
+                    const csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = '_token';
+                    csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    
+                    // Method spoofing para PATCH
+                    const methodField = document.createElement('input');
+                    methodField.type = 'hidden';
+                    methodField.name = '_method';
+                    methodField.value = 'PATCH';
+                    
+                    form.appendChild(csrfToken);
+                    form.appendChild(methodField);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
     </script>
 @endsection

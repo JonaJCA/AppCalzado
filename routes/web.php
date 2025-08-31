@@ -28,5 +28,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/tallas/data', [TallaController::class, 'obtenerTallas'])->name('tallas.data');
     Route::resource('/tallas', TallaController::class);
-    
+    Route::patch('tallas/{talla}/restaurar', [TallaController::class, 'restaurar'])->name('tallas.restaurar');
+
 });

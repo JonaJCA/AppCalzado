@@ -47,25 +47,30 @@ class TallaController extends Controller
         return DataTables::of($tallas)
             ->addIndexColumn()
             ->addColumn('acciones', function($row) {
-                $editUrl = route('tallas.edit', $row->id);
-                $deleteUrl = route('tallas.destroy', $row->id);
-                return '<a href="'.$editUrl.'" class="btn btn-sm btn-warning">
-                            <img src="'.asset('assets/icons/pencil.svg').'" alt="Editar" width="16" height="16">
-                        </a>
-                        <button class="btn btn-sm btn-danger">
-                            <img src="'.asset('assets/icons/trash.svg').'" alt="Eliminar" width="16" height="16" style="filter: brightness(0) invert(1);">
-                        </button>';
+                if ($row->estado) {
+                    $editUrl = route('tallas.edit', $row->id);
+                    return '<a href="'.$editUrl.'" class="btn btn-sm btn-warning">
+                                <img src="'.asset('assets/icons/pencil.svg').'" alt="Editar" width="16" height="16">
+                            </a>
+                            <button class="btn btn-sm btn-danger" onclick="confirmarEliminacion('.$row->id.')">
+                                <img src="'.asset('assets/icons/trash.svg').'" alt="Eliminar" width="16" height="16" style="filter: brightness(0) invert(1);">
+                            </button>';
+                } else {
+                    // Si está inactivo: mostrar solo botón Restaurar
+                    return '<button class="btn btn-sm btn-success" onclick="confirmarRestauracion('.$row->id.')">
+                                <img src="'.asset('assets/icons/sync.svg').'" alt="Restaurar" width="16" height="16">
+                            </button>';
+                }   
             })
-            ->rawColumns(['acciones'])
+            ->addColumn('estado', function($row) {
+                if ($row->estado) {
+                    return '<span class="badge rounded-pill bg-success">Activo</span>';
+                } else {
+                    return '<span class="badge rounded-pill bg-danger">Inactivo</span>';
+                }
+            })
+            ->rawColumns(['acciones', 'estado'])
             ->make(true);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     public function edit(Talla $talla)
@@ -83,11 +88,21 @@ class TallaController extends Controller
         return redirect()->route('tallas.index')->with('success', 'Talla actualizada correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Talla $talla)
     {
-        //
+        if (!$talla->estado) {
+            return redirect()->route('tallas.index')->with('warning', 'La talla ya está eliminada');
+        }
+        $talla->update(['estado' => false]);
+        return redirect()->route('tallas.index')->with('success', 'Talla eliminada correctamente');
+    }
+
+    public function restaurar(Talla $talla)
+    {
+        if ($talla->estado) {
+            return redirect()->route('tallas.index')->with('warning', 'La talla ya está activada');
+        }
+        $talla->update(['estado' => true]);
+        return redirect()->route('tallas.index')->with('success', 'Talla restaurada correctamente');
     }
 }
