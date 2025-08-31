@@ -7,6 +7,7 @@
     <title>@yield('title', 'AppCalzado - Admin')</title>
     <!-- CoreUI CSS -->
     <link href="{{ asset('assets/css/coreui.min.css') }}" rel="stylesheet">
+    @yield('css')
     <!-- CoreUI Icons (CDN temporal para iconos) -->
     <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.1/css/all.min.css" rel="stylesheet">
 
@@ -40,13 +41,41 @@
             display: flex;
             align-items: center;
         }
+        .nav-dropdown-items {
+            display: none;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-dropdown.show .nav-dropdown-items {
+            display: block !important;
+        }
+
+        .nav-dropdown-items .nav-link {
+            padding-left: 3rem;
+        }
+
+        /* Estilo del chevron */
+        .nav-chevron {
+            margin-left: auto;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+        /* Rotar chevron cuando está expandido */
+        .nav-dropdown.show .nav-chevron {
+            transform: rotate(90deg);
+        }
+        .sidebar .nav-dropdown-items {
+            list-style: none;
+            padding-left: 0;
+            margin-left: 0;
+        }
         .sidebar .nav-link:hover {
-            color: #321fdb;
-            background-color: #f0f4f7;
+            color: #e8e7ec;
+            background-color: #3540d3;
         }
         .sidebar .nav-link.active {
-            color: #321fdb;
-            background-color: #e7f1ff;
+            color: #e8e7ec;
+            background-color: #3540d3;
         }
         .sidebar .nav-icon {
             margin-right: 0.5rem;
@@ -124,6 +153,7 @@
 
     <!-- CoreUI JavaScript -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/coreui.min.js') }}"></script>
     <script>
         // Función para toggle del sidebar
         function toggleSidebar() {
@@ -139,6 +169,39 @@
                 }
             }
         }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.nav-dropdown-toggle');
+            
+            dropdownToggles.forEach(function(toggle) {
+                const parent = toggle.closest('.nav-dropdown');
+                const dropdownItems = parent.querySelector('.nav-dropdown-items');
+                
+                // Verificar si hay una opción activa dentro del dropdown al cargar
+                const activeItem = dropdownItems.querySelector('.nav-link.active');
+                if (activeItem) {
+                    parent.classList.add('show');
+                    dropdownItems.style.display = 'block';
+                }
+                
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Toggle la clase 'show' en el parent
+                    parent.classList.toggle('show');
+                    
+                    // Toggle display del submenu
+                    if (parent.classList.contains('show')) {
+                        dropdownItems.style.display = 'block';
+                    } else {
+                        dropdownItems.style.display = 'none';
+                    }
+                });
+            });
+        });
     </script>
+    <script src="{{ asset('assets/js/sweetalert2@11.js') }}"></script>
+    @yield('js')
+    @include('partials.alerts')
 </body>
 </html>
