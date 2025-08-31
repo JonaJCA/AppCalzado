@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\TallaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -24,10 +25,13 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/tallas/data', [TallaController::class, 'obtenerTallas'])->name('tallas.data');
     Route::resource('/tallas', TallaController::class);
     Route::patch('tallas/{talla}/restaurar', [TallaController::class, 'restaurar'])->name('tallas.restaurar');
+
+    Route::get('/colores/data', [ColorController::class, 'obtenerColores'])->name('colores.data');
+    Route::resource('/colores', ColorController::class);
 
 });

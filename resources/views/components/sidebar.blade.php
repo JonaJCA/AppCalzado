@@ -22,6 +22,11 @@
                             <i class="nav-icon cil-basket"></i> Tallas
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('colores.*') ? 'active' : '' }}" href="{{ route('colores.index') }}">
+                            <i class="nav-icon cil-basket"></i> Colores
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">
