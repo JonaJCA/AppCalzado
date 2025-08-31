@@ -17,16 +17,16 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('login');
+    return redirect()->route('login'); 
 });
-
-Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/tallas/data', [TallaController::class, 'obtenerTallas'])->name('tallas.data');
-Route::resource('/tallas', TallaController::class);
+Route::middleware(['auth'])->group(function () {
 
+    Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
 
-Route::get('/prueba-controller', [TallaController::class, 'pruebaController']);
+    Route::get('/tallas/data', [TallaController::class, 'obtenerTallas'])->name('tallas.data');
+    Route::resource('/tallas', TallaController::class);
+    
+});
