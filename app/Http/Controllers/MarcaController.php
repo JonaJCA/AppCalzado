@@ -15,15 +15,20 @@ class MarcaController extends Controller
 
     public function create()
     {
-        //
+        return view('base.marcas.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'descripcion' => 'required|string|unique:marcas,descripcion',
+        ], [
+            'descripcion.required' => 'El nombre de la marca es obligatorio.',
+            'descripcion.unique'   => 'Esta marca ya está registrada.',
+        ]);
+        Marca::create($validated);
+        return redirect()->route('marcas.index')
+            ->with('success', 'Marca registrada correctamente.');
     }
 
     public function obtenerMarcas(Request $request)
@@ -65,28 +70,19 @@ class MarcaController extends Controller
             ->make(true);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Marca $marca)
     {
-        //
+        return view('base.marcas.edit', compact('marca'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Marca $marca)
     {
-        //
-    }
+        $validated = $request->validate([
+            'descripcion' => 'required|string|unique:marcas,descripcion,' . $marca->id
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        $marca->update($validated);
+        return redirect()->route('marcas.index')->with('success', 'Marca actualizada correctamente');
     }
 
     /**
