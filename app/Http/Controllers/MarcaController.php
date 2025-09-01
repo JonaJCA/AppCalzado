@@ -85,11 +85,21 @@ class MarcaController extends Controller
         return redirect()->route('marcas.index')->with('success', 'Marca actualizada correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Marca $marca)
     {
-        //
+        if (!$marca->estado) {
+            return redirect()->route('marcas.index')->with('warning', 'La Marca ya está eliminada');
+        }
+        $marca->update(['estado' => false]);
+        return redirect()->route('marcas.index')->with('success', 'Marca eliminada correctamente');
+    }
+
+    public function restaurar(Marca $marca)
+    {
+        if ($marca->estado) {
+            return redirect()->route('marcas.index')->with('warning', 'La Marca ya está activada');
+        }
+        $marca->update(['estado' => true]);
+        return redirect()->route('marcas.index')->with('success', 'Marca restaurada correctamente');
     }
 }

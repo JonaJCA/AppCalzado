@@ -38,5 +38,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/marcas/data', [MarcaController::class, 'obtenerMarcas'])->name('marcas.data');
     Route::resource('/marcas', MarcaController::class);
-
+    Route::patch('marcas/{marca}/restaurar', [MarcaController::class, 'restaurar'])->name('marcas.restaurar');
 });
