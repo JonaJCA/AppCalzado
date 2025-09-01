@@ -85,11 +85,21 @@ class ColorController extends Controller
         return redirect()->route('colores.index')->with('success', 'Color actualizado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Color $colore)
     {
-        //
+        if (!$colore->estado) {
+            return redirect()->route('colores.index')->with('warning', 'El color ya está eliminado');
+        }
+        $colore->update(['estado' => false]);
+        return redirect()->route('colores.index')->with('success', 'Color eliminado correctamente');
+    }
+
+    public function restaurar(Color $colore)
+    {
+        if ($colore->estado) {
+            return redirect()->route('colores.index')->with('warning', 'El color ya está activado');
+        }
+        $colore->update(['estado' => true]);
+        return redirect()->route('colores.index')->with('success', 'Color restaurado correctamente');
     }
 }

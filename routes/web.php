@@ -33,5 +33,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/colores/data', [ColorController::class, 'obtenerColores'])->name('colores.data');
     Route::resource('/colores', ColorController::class);
+    Route::patch('colores/{colore}/restaurar', [ColorController::class, 'restaurar'])->name('colores.restaurar');
 
 });
