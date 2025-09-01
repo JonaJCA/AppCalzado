@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\TallaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -35,4 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/colores', ColorController::class);
     Route::patch('colores/{colore}/restaurar', [ColorController::class, 'restaurar'])->name('colores.restaurar');
 
+    Route::get('/marcas/data', [MarcaController::class, 'obtenerMarcas'])->name('marcas.data');
+    Route::resource('/marcas', MarcaController::class);
+    Route::patch('marcas/{marca}/restaurar', [MarcaController::class, 'restaurar'])->name('marcas.restaurar');
 });
