@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', 'Listado Colores - AppCalzado')
+@section('title', 'Listado Marcas - AppCalzado')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/css/datatables/datatables.min.css') }}">
     <style>
-        #tabla-colores thead th {
+        #tabla-marcas thead th {
             background-color: #212529 !important;
             color: #fff !important;
             border-color: #32383e !important;
@@ -18,27 +18,27 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Listado Colores - AppCalzado</h4>
+                <h4 class="card-title">Listado Marcas - AppCalzado</h4>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
-                    <p class="mb-0">¡Revisa el listado de los colores disponibles en el sistema!</p>
-                    <a href="{{ route('colores.create') }}" class="btn btn-success btn-sm mb-2 text-white fw-bold">
+                    <p class="mb-0">¡Revisa el listado de las marcas disponibles en el sistema!</p>
+                    <a href="{{ route('marcas.create') }}" class="btn btn-success btn-sm mb-2 text-white fw-bold">
                         <i class="cil-save"></i> Registrar Nuevo
                     </a>
                 </div>
                 <!-- Tabla de ejemplo -->
                 <div class="card">
                     <div class="card-header">
-                        <h5>Listado de Colores</h5>
+                        <h5>Listado de Marcas</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="tabla-colores" class="table table-striped table-hover" style="width:100%">
+                            <table id="tabla-marcas" class="table table-striped table-hover" style="width:100%">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Nº</th>
-                                        <th>Descripción Color</th>
+                                        <th>Nombre Marca</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -61,12 +61,12 @@
     <script src="{{ asset('assets/js/datatables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('#tabla-colores').DataTable({
+            $('#tabla-marcas').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
                 ajax: {
-                    url: "{{ route('colores.data')}}",
+                    url: "{{ route('marcas.data')}}",
                     type: 'GET',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest' // Fuerza que sea AJAX
@@ -74,7 +74,7 @@
                 },
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'nombre', name: 'nombre' },
+                    { data: 'descripcion', name: 'descripcion' },
                     { data: 'estado', name: 'estado' },
                     { data: 'acciones', name: 'acciones', orderable: false, searchable: false }
                 ],
@@ -100,7 +100,7 @@
         });
 
         //Función para eliminar logicamente
-        function confirmarEliminacion(id) {
+        /* function confirmarEliminacion(id) {
             Swal.fire({
                 title: '¿Estás seguro?',
                 text: "Este Color se marcará como inactivo",
@@ -175,6 +175,6 @@
                     form.submit();
                 }
             });
-        }
+        } */
     </script>
 @endsection

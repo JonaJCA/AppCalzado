@@ -27,6 +27,11 @@
                             <i class="nav-icon cil-basket"></i> Colores
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('marcas.*') ? 'active' : '' }}" href="{{ route('marcas.index') }}">
+                            <i class="nav-icon cil-basket"></i> Marcas
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">
