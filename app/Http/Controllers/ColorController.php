@@ -70,28 +70,19 @@ class ColorController extends Controller
             ->make(true);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Color $colore)
     {
-        //
+        return view('base.colores.edit', compact('colore'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Color $colore)
     {
-        //
-    }
+        $validated = $request->validate([
+            'nombre' => 'required|string|unique:colores,nombre,' . $colore->id
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        $colore->update($validated);
+        return redirect()->route('colores.index')->with('success', 'Color actualizado correctamente');
     }
 
     /**
