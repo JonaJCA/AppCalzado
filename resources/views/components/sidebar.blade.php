@@ -18,8 +18,8 @@
                 </a>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('tallas.*') ? 'active' : '' }}" href="{{ route('tallas.index') }}">
-                            <i class="nav-icon cil-basket"></i> Tallas
+                        <a class="nav-link {{ request()->routeIs('categorias.*') ? 'active' : '' }}" href="{{ route('categorias.index') }}">
+                            <i class="nav-icon cil-basket"></i> Categorías
                         </a>
                     </li>
                     <li class="nav-item">
@@ -30,6 +30,11 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('marcas.*') ? 'active' : '' }}" href="{{ route('marcas.index') }}">
                             <i class="nav-icon cil-basket"></i> Marcas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('tallas.*') ? 'active' : '' }}" href="{{ route('tallas.index') }}">
+                            <i class="nav-icon cil-basket"></i> Tallas
                         </a>
                     </li>
                 </ul>
