@@ -104,10 +104,10 @@
         });
 
         //Función para eliminar logicamente
-        /* function confirmarEliminacion(id) {
+        function confirmarEliminacion(id) {
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: "Este Categoría se marcará como inactiva",
+                text: "Este Modelo se marcará como inactivo",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -119,7 +119,7 @@
                     // Crear formulario dinámico para enviar DELETE
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `/AppCalzado/public/categorias/${id}`;
+                    form.action = `/AppCalzado/public/modelos/${id}`;
                     
                     // Token CSRF
                     const csrfToken = document.createElement('input');
@@ -147,8 +147,8 @@
         //Funcion para restaura un registro
         function confirmarRestauracion(id) {
             Swal.fire({
-                title: '¿Restaurar Categoría?',
-                text: "Esta categoría se marcará como activa nuevamente",
+                title: '¿Restaurar Modelo?',
+                text: "Este modelo se marcará como activo nuevamente",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#28a745',
@@ -159,7 +159,7 @@
                 if (result.isConfirmed) {
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `/AppCalzado/public/categorias/${id}/restaurar`;
+                    form.action = `/AppCalzado/public/modelos/${id}/restaurar`;
                     
                     // Token CSRF
                     const csrfToken = document.createElement('input');
@@ -179,6 +179,6 @@
                     form.submit();
                 }
             });
-        } */
+        }
     </script>
 @endsection

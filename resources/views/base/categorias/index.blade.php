@@ -103,7 +103,7 @@
         function confirmarEliminacion(id) {
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: "Este Categoría se marcará como inactiva",
+                text: "Esta Categoría se marcará como inactiva",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',

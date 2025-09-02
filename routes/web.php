@@ -48,4 +48,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/modelos/data', [ModeloController::class, 'obtenerModelos'])->name('modelos.data');
     Route::resource('/modelos', ModeloController::class);
+    Route::patch('modelos/{modelo}/restaurar', [ModeloController::class, 'restaurar'])->name('modelos.restaurar');
 });

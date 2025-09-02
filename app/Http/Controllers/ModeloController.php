@@ -78,35 +78,38 @@ class ModeloController extends Controller
             ->make(true);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Modelo $modelo)
     {
-        //
+        $marcas = Marca::all();
+        return view('base.modelos.edit', compact('modelo', 'marcas'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Modelo $modelo)
     {
-        //
+        $validated = $request->validate([
+            'nombre'      => 'required|string|unique:modelos,nombre,' . $modelo->id,
+            'descripcion' => 'nullable|string',
+            'marca_id'    => 'required|exists:marcas,id',
+        ]);
+        $modelo->update($validated);
+        return redirect()->route('modelos.index')->with('success', 'Modelo actualizado correctamente');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Modelo $modelo)
     {
-        //
+        if (!$modelo->estado) {
+            return redirect()->route('modelos.index')->with('warning', 'El modelo ya está eliminado');
+        }
+        $modelo->update(['estado' => false]);
+        return redirect()->route('modelos.index')->with('success', 'Modelo eliminado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function restaurar(Modelo $modelo)
     {
-        //
+        if ($modelo->estado) {
+            return redirect()->route('modelos.index')->with('warning', 'El modelo ya está activado');
+        }
+        $modelo->update(['estado' => true]);
+        return redirect()->route('modelos.index')->with('success', 'Modelo restaurado correctamente');
     }
 }
