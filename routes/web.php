@@ -5,6 +5,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\TallaController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ModeloController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,4 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/categorias/data', [CategoriaController::class, 'obtenerCategorias'])->name('categorias.data');
     Route::resource('/categorias', CategoriaController::class);
     Route::patch('categorias/{categoria}/restaurar', [CategoriaController::class, 'restaurar'])->name('categorias.restaurar');
+
+    Route::get('/modelos/data', [ModeloController::class, 'obtenerModelos'])->name('modelos.data');
+    Route::resource('/modelos', ModeloController::class);
 });
