@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', 'Listado Categorias - AppCalzado')
+@section('title', 'Listado Modelos - AppCalzado')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/css/datatables/datatables.min.css') }}">
     <style>
-        #tabla-categorias thead th {
+        #tabla-modelos thead th {
             background-color: #212529 !important;
             color: #fff !important;
             border-color: #32383e !important;
@@ -18,27 +18,29 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Listado Categorías - AppCalzado</h4>
+                <h4 class="card-title">Listado Modelos - AppCalzado</h4>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
-                    <p class="mb-0">¡Revisa el listado de las categorías disponibles en el sistema!</p>
-                    <a href="{{ route('categorias.create') }}" class="btn btn-success btn-sm mb-2 text-white fw-bold">
+                    <p class="mb-0">¡Revisa el listado de los modelos disponibles en el sistema!</p>
+                    <a href="{{ route('modelos.create') }}" class="btn btn-success btn-sm mb-2 text-white fw-bold">
                         <i class="cil-save"></i> Registrar Nuevo
                     </a>
                 </div>
                 <!-- Tabla de ejemplo -->
                 <div class="card">
                     <div class="card-header">
-                        <h5>Listado de Categorías</h5>
+                        <h5>Listado de Modelos</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="tabla-categorias" class="table table-striped table-hover" style="width:100%">
+                            <table id="tabla-modelos" class="table table-striped table-hover" style="width:100%">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Nº</th>
-                                        <th>Nombre Categoría</th>
+                                        <th>Marca</th>
+                                        <th>Nombre Modelo</th>
+                                        <th>Descripción</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -61,12 +63,12 @@
     <script src="{{ asset('assets/js/datatables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('#tabla-categorias').DataTable({
+            $('#tabla-modelos').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
                 ajax: {
-                    url: "{{ route('categorias.data')}}",
+                    url: "{{ route('modelos.data')}}",
                     type: 'GET',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest' // Fuerza que sea AJAX
@@ -74,7 +76,9 @@
                 },
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'marca.descripcion', name: 'marca.descripcion' },
                     { data: 'nombre', name: 'nombre' },
+                    { data: 'descripcion', name: 'descripcion' },
                     { data: 'estado', name: 'estado' },
                     { data: 'acciones', name: 'acciones', orderable: false, searchable: false }
                 ],
@@ -103,7 +107,7 @@
         function confirmarEliminacion(id) {
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: "Esta Categoría se marcará como inactiva",
+                text: "Este Modelo se marcará como inactivo",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -115,7 +119,7 @@
                     // Crear formulario dinámico para enviar DELETE
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `/AppCalzado/public/categorias/${id}`;
+                    form.action = `/AppCalzado/public/modelos/${id}`;
                     
                     // Token CSRF
                     const csrfToken = document.createElement('input');
@@ -143,8 +147,8 @@
         //Funcion para restaura un registro
         function confirmarRestauracion(id) {
             Swal.fire({
-                title: '¿Restaurar Categoría?',
-                text: "Esta categoría se marcará como activa nuevamente",
+                title: '¿Restaurar Modelo?',
+                text: "Este modelo se marcará como activo nuevamente",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#28a745',
@@ -155,7 +159,7 @@
                 if (result.isConfirmed) {
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `/AppCalzado/public/categorias/${id}/restaurar`;
+                    form.action = `/AppCalzado/public/modelos/${id}/restaurar`;
                     
                     // Token CSRF
                     const csrfToken = document.createElement('input');
