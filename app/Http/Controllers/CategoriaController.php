@@ -45,7 +45,7 @@ class CategoriaController extends Controller
             ->addIndexColumn()
             ->addColumn('acciones', function($row) {
                 if ($row->estado) {
-                    $editUrl = route('colores.edit', $row->id);
+                    $editUrl = route('categorias.edit', $row->id);
                     return '<a href="'.$editUrl.'" class="btn btn-sm btn-warning">
                                 <img src="'.asset('assets/icons/pencil.svg').'" alt="Editar" width="16" height="16">
                             </a>
@@ -68,5 +68,37 @@ class CategoriaController extends Controller
             })
             ->rawColumns(['acciones', 'estado'])
             ->make(true);
+    }
+
+    public function edit(Categoria $categoria)
+    {
+        return view('base.categorias.edit', compact('categoria'));
+    }
+
+    public function update(Request $request, Categoria $categoria)
+    {
+        $validated = $request->validate([
+            'nombre' => 'required|string|unique:categorias,nombre,' . $categoria->id
+        ]);
+        $categoria->update($validated);
+        return redirect()->route('categorias.index')->with('success', 'Categoria actualizada correctamente');
+    }
+
+    public function destroy(Categoria $categoria)
+    {
+        if (!$categoria->estado) {
+            return redirect()->route('categorias.index')->with('warning', 'La Categoría ya está eliminada');
+        }
+        $categoria->update(['estado' => false]);
+        return redirect()->route('categorias.index')->with('success', 'Categoría eliminada correctamente');
+    }
+
+    public function restaurar(Categoria $categoria)
+    {
+        if ($categoria->estado) {
+            return redirect()->route('categorias.index')->with('warning', 'La Categoría ya está activada');
+        }
+        $categoria->update(['estado' => true]);
+        return redirect()->route('categorias.index')->with('success', 'Categoría restaurada correctamente');
     }
 }

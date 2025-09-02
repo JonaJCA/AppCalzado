@@ -43,4 +43,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/categorias/data', [CategoriaController::class, 'obtenerCategorias'])->name('categorias.data');
     Route::resource('/categorias', CategoriaController::class);
+    Route::patch('categorias/{categoria}/restaurar', [CategoriaController::class, 'restaurar'])->name('categorias.restaurar');
 });
