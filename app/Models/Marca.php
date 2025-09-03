@@ -14,4 +14,21 @@ class Marca extends Model
         'descripcion',
         'estado'
     ];
+
+    public function modelos()
+    {
+        return $this->hasMany(Modelo::class);
+    }
+
+    public function productos()
+    {
+        return $this->hasManyThrough(
+            Producto::class, 
+            Modelo::class,   
+            'marca_id',       
+            'modelo_id',      
+            'id',             
+            'id'              
+        );
+    }
 }

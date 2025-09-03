@@ -6,6 +6,7 @@ use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\TallaController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ModeloController;
+use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,4 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/modelos/data', [ModeloController::class, 'obtenerModelos'])->name('modelos.data');
     Route::resource('/modelos', ModeloController::class);
     Route::patch('modelos/{modelo}/restaurar', [ModeloController::class, 'restaurar'])->name('modelos.restaurar');
+
+    Route::get('/productos/data', [ProductoController::class, 'obtenerProductos'])->name('productos.data');
+    Route::resource('/productos', ProductoController::class);
 });

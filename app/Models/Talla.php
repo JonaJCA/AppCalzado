@@ -14,4 +14,9 @@ class Talla extends Model
         'numero',
         'estado'
     ];
+
+    public function productos()
+    {
+        return $this->hasMany(Producto::class);
+    }
 }
