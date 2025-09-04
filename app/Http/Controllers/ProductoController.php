@@ -64,6 +64,19 @@ class ProductoController extends Controller
             ->addColumn('modelo', function ($row) {
                 return $row->modelo ? $row->modelo->nombre : '—';
             })
+            ->addColumn('stock_con_estado', function ($row) {
+                $stock = $row->stock_actual;
+                
+                if ($stock == 0) {
+                    $pill = '<span class="badge bg-danger ms-2">Agotado</span>';
+                } elseif ($stock <= 15) {
+                    $pill = '<span class="badge bg-warning ms-2">Bajo</span>';
+                } else {
+                    $pill = '<span class="badge bg-success ms-2">Disponible</span>';
+                }
+                
+                return $stock . $pill;
+            })
             ->addColumn('acciones', function ($row) {
                 if ($row->estado) {
                     $editUrl = route('productos.edit', $row->id);
@@ -87,7 +100,7 @@ class ProductoController extends Controller
                     return '<span class="badge rounded-pill bg-danger">Inactivo</span>';
                 }
             })
-            ->rawColumns(['acciones', 'estado'])
+            ->rawColumns(['acciones', 'estado', 'stock_con_estado'])
             ->make(true);
     }
 

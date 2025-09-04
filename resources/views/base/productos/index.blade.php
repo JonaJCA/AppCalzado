@@ -77,10 +77,10 @@
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'nombre', name: 'nombre' },
-                    { data: 'stock_actual', name: 'stock_actual' },
+                    { data: 'stock_con_estado', name: 'stock_con_estado', orderable: false, },
                     { data: 'modelo', name: 'modelo' },
                     { data: 'estado', name: 'estado', orderable: false, searchable: false },
-                    { data: 'acciones', name: 'acciones', orderable: false, searchable: false }
+                    { data: 'acciones', name: 'acciones', orderable: false, searchable: false },
                 ],
                 language: {
                     processing: "Procesando...",
