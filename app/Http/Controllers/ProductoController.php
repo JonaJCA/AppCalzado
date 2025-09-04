@@ -19,10 +19,10 @@ class ProductoController extends Controller
 
     public function create()
     {
-        $modelos = Modelo::all();
+        $modelos    = Modelo::all();
         $categorias = Categoria::all();
-        $tallas = Talla::all();
-        $colores = Color::all();
+        $tallas     = Talla::all();
+        $colores    = Color::all();
         return view('base.productos.create', compact('modelos', 'categorias', 'tallas', 'colores'));
     }
 
@@ -91,35 +91,49 @@ class ProductoController extends Controller
             ->make(true);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Producto $producto)
     {
-        //
+        $modelos    = Modelo::all();
+        $categorias = Categoria::all();
+        $tallas     = Talla::all();
+        $colores    = Color::all();
+        return view('base.productos.edit', compact('producto', 'modelos', 'categorias', 'tallas', 'colores'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Producto $producto)
     {
-        //
+        $validated = $request->validate([
+            'modelo_id'     => 'required|exists:modelos,id',
+            'categoria_id'  => 'required|exists:categorias,id',
+            'talla_id'      => 'required|exists:tallas,id',
+            'color_id'      => 'required|exists:colores,id',
+            'nombre'        => 'required|string|max:255',
+            'taco'          => 'nullable|string|max:100',
+            'precio_compra' => 'required|numeric|min:0',
+            'stock_actual'  => 'required|integer|min:0',
+        ]);
+
+        $producto->update($validated);
+
+        return redirect()->route('productos.index')
+        ->with('success', 'Producto actualizado correctamente.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Producto $producto)
     {
-        //
+        if (!$producto->estado) {
+            return redirect()->route('productos.index')->with('warning', 'El producto ya está eliminado');
+        }
+        $producto->update(['estado' => false]);
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function restaurar(Producto $producto)
     {
-        //
+        if ($producto->estado) {
+            return redirect()->route('productos.index')->with('warning', 'El producto ya está activado');
+        }
+        $producto->update(['estado' => true]);
+        return redirect()->route('productos.index')->with('success', 'Producto restaurado correctamente');
     }
 }

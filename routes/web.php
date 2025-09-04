@@ -53,4 +53,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/productos/data', [ProductoController::class, 'obtenerProductos'])->name('productos.data');
     Route::resource('/productos', ProductoController::class);
+    Route::patch('productos/{producto}/restaurar', [ProductoController::class, 'restaurar'])->name('productos.restaurar');
 });
