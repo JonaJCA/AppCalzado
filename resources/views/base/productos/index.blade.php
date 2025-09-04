@@ -78,7 +78,7 @@
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'nombre', name: 'nombre' },
                     { data: 'stock_actual', name: 'stock_actual' },
-                    { data: 'modelo.nombre', name: 'modelo.nombre' },
+                    { data: 'modelo', name: 'modelo' },
                     { data: 'estado', name: 'estado', orderable: false, searchable: false },
                     { data: 'acciones', name: 'acciones', orderable: false, searchable: false }
                 ],

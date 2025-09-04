@@ -26,48 +26,61 @@ class ProductoController extends Controller
         return view('base.productos.create', compact('modelos', 'categorias', 'tallas', 'colores'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'modelo_id'     => 'required|exists:modelos,id',
+            'categoria_id'  => 'required|exists:categorias,id',
+            'talla_id'      => 'required|exists:tallas,id',
+            'color_id'      => 'required|exists:colores,id',
+            'nombre'        => 'required|string|max:255',
+            'taco'          => 'nullable|string|max:100',
+            'precio_compra' => 'required|numeric|min:0',
+            'stock_actual'  => 'required|integer|min:0',
+        ]);
+
+        $producto = Producto::create($validated);
+        $codigoProducto = 'SKU-' . str_pad($producto->id, 5, '0', STR_PAD_LEFT);
+        
+        $producto->update(['codigo_producto' => $codigoProducto]);
+        return redirect()->route('productos.index')
+            ->with('success', 'Producto registrado correctamente con código: ' . $codigoProducto);
     }
 
     public function obtenerProductos(Request $request)
     {
         if (!$request->ajax()) {
             $productos = Producto::with('modelo:id,nombre')
-                        ->select('id', 'modelo_id', 'nombre', 'stock_actual', 'estado')
-                        ->get();
+                ->select('id', 'modelo_id', 'nombre', 'stock_actual', 'estado')
+                ->get();
             return response()->json($productos);
         }
-        
+
         // Para peticiones AJAX de DataTables
         $productos = Producto::with('modelo:id,nombre')->select('id', 'modelo_id', 'nombre', 'stock_actual', 'estado');
-        
+
         return DataTables::of($productos)
             ->addIndexColumn()
             ->addColumn('modelo', function ($row) {
                 return $row->modelo ? $row->modelo->nombre : '—';
             })
-            ->addColumn('acciones', function($row) {
+            ->addColumn('acciones', function ($row) {
                 if ($row->estado) {
                     $editUrl = route('productos.edit', $row->id);
-                    return '<a href="'.$editUrl.'" class="btn btn-sm btn-warning">
-                                <img src="'.asset('assets/icons/pencil.svg').'" alt="Editar" width="16" height="16">
+                    return '<a href="' . $editUrl . '" class="btn btn-sm btn-warning">
+                                <img src="' . asset('assets/icons/pencil.svg') . '" alt="Editar" width="16" height="16">
                             </a>
-                            <button class="btn btn-sm btn-danger" onclick="confirmarEliminacion('.$row->id.')">
-                                <img src="'.asset('assets/icons/trash.svg').'" alt="Eliminar" width="16" height="16" style="filter: brightness(0) invert(1);">
+                            <button class="btn btn-sm btn-danger" onclick="confirmarEliminacion(' . $row->id . ')">
+                                <img src="' . asset('assets/icons/trash.svg') . '" alt="Eliminar" width="16" height="16" style="filter: brightness(0) invert(1);">
                             </button>';
                 } else {
                     // Si está inactivo: mostrar solo botón Restaurar
-                    return '<button class="btn btn-sm btn-success" onclick="confirmarRestauracion('.$row->id.')">
-                                <img src="'.asset('assets/icons/sync.svg').'" alt="Restaurar" width="16" height="16">
+                    return '<button class="btn btn-sm btn-success" onclick="confirmarRestauracion(' . $row->id . ')">
+                                <img src="' . asset('assets/icons/sync.svg') . '" alt="Restaurar" width="16" height="16">
                             </button>';
-                }   
+                }
             })
-            ->addColumn('estado', function($row) {
+            ->addColumn('estado', function ($row) {
                 if ($row->estado) {
                     return '<span class="badge rounded-pill bg-success">Activo</span>';
                 } else {

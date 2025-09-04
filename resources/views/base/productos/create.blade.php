@@ -21,7 +21,7 @@
                         <form action="{{ route('productos.store') }}" method="POST">
                             @csrf
                             <div class="row">
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label for="nombre" class="form-label">Nombre del producto:</label>
                                     <input class="form-control @error('nombre') is-invalid @enderror" type="text" name="nombre" id="nombre">
                                     @error('nombre')
@@ -41,14 +41,23 @@
                                 </div>
                                 <div class="col-md-2 mb-3">
                                     <label for="precio_compra" class="form-label">Precio compra:</label>
-                                    <input class="form-control @error('taco') is-invalid @enderror" type="text" name="precio_compra" id="precio_compra">
+                                    <input class="form-control @error('precio_compra') is-invalid @enderror" type="text" name="precio_compra" id="precio_compra">
                                     @error('precio_compra')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-2 mb-3">
+                                    <label for="stock_actual" class="form-label">Stock actual:</label>
+                                    <input class="form-control @error('stock_actual') is-invalid @enderror" type="text" name="stock_actual" id="stock_actual">
+                                    @error('stock_actual')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-3 mb-3">
                                     <label for="modelo_id" class="form-label">Modelo:</label>
                                     <select class="form-select @error('modelo_id') is-invalid @enderror" name="modelo_id" id="modelo_id">
                                         <option value="">Seleccionar modelo</option>
@@ -62,7 +71,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="categoria_id" class="form-label">Categoría:</label>
                                     <select class="form-select @error('categoria_id') is-invalid @enderror" name="categoria_id" id="categoria_id">
                                         <option value="">Seleccionar categoria</option>
@@ -76,7 +85,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="col-md-2 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="talla_id" class="form-label">Talla:</label>
                                     <select class="form-select @error('talla_id') is-invalid @enderror" name="talla_id" id="talla_id">
                                         <option value="">Seleccionar talla</option>
@@ -90,7 +99,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="col-md-2 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="color_id" class="form-label">Color:</label>
                                     <select class="form-select @error('color_id') is-invalid @enderror" name="color_id" id="color_id">
                                         <option value="">Seleccionar Color</option>
@@ -110,7 +119,7 @@
                                     <button type="submit" class="btn btn-danger w-100"><img src="{{ asset('assets/icons/save.svg') }}" alt="Guardar" width="16" height="16" class="me-1">Guardar</button>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <a href="{{ route('productfos.index') }}" class="btn btn-warning w-100">Cancelar</a>
+                                    <a href="{{ route('productos.index') }}" class="btn btn-warning w-100">Cancelar</a>
                                 </div>
                             </div>
                         </form>
