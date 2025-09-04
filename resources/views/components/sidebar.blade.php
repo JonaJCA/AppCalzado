@@ -45,7 +45,7 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ request()->routeIs('productos.*') ? 'active' : '' }}" href="{{ route('productos.index') }}">
                     <i class="nav-icon cil-basket"></i> Productos
                 </a>
             </li>
