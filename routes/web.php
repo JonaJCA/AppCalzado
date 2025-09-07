@@ -57,5 +57,6 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('productos/{producto}/restaurar', [ProductoController::class, 'restaurar'])->name('productos.restaurar');
 
     Route::get('/inventarios/data', [InventarioController::class, 'obtenerInventarios'])->name('inventarios.data');
+    Route::get('/inventarios/detalle/{id}', [InventarioController::class, 'obtenerDetalle'])->name('inventarios.detalle');
     Route::resource('/inventarios', InventarioController::class);
 });

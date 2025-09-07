@@ -13,6 +13,7 @@ class Inventario extends Model
         'producto_id',
         'cantidad',
         'precio_venta',
+        'precio_compra',
         'fecha_movimiento',
         'motivo',
         'tipo_movimiento'
@@ -20,8 +21,9 @@ class Inventario extends Model
 
     protected $casts = [
         'fecha_movimiento' => 'date',
-        'precio_venta' => 'decimal:2',
-        'cantidad' => 'integer'
+        'precio_venta'     => 'decimal:2',
+        'precio_compra'    => 'decimal:2',
+        'cantidad'         => 'integer'
     ];
 
     public function producto()

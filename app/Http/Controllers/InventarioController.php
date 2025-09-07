@@ -6,6 +6,7 @@ use App\Models\Inventario;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 
 class InventarioController extends Controller
 {
@@ -22,7 +23,53 @@ class InventarioController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'producto_id'      => 'required|exists:productos,id',
+            'tipo_movimiento'  => 'required|in:entrada,salida,ajuste',
+            'cantidad'         => 'required|numeric|min:1',
+            'fecha_movimiento' => 'required|date',
+            'motivo'           => 'required|string|max:255',
+            'precio_compra'    => 'nullable|numeric|min:0',
+            'precio_venta'     => 'nullable|numeric|min:0',
+        ]);
+
+        $producto = Producto::findOrFail($request->producto_id);
+    
+        // Validar stock suficiente para salidas
+        if ($request->tipo_movimiento === 'salida') {
+            if ($producto->stock_actual < $request->cantidad) {
+                return back()
+                    ->withErrors(['cantidad' => 'Stock insuficiente. Stock actual: ' . $producto->stock_actual])
+                    ->withInput();
+            }
+        }
+
+        $inventario = Inventario::create([
+            'producto_id'      => $request->producto_id,
+            'tipo_movimiento'  => $request->tipo_movimiento,
+            'cantidad'         => $request->cantidad,
+            'fecha_movimiento' => $request->fecha_movimiento,
+            'motivo'           => $request->motivo,
+            'precio_compra'    => $request->precio_compra,
+            'precio_venta'     => $request->precio_venta,
+        ]);
+
+        switch ($request->tipo_movimiento) {
+            case 'entrada':
+                $producto->stock_actual += $request->cantidad;
+                break;
+            case 'salida':
+                $producto->stock_actual -= $request->cantidad;
+                break;
+            case 'ajuste':
+                // Para ajuste, la cantidad ES el nuevo stock
+                $producto->stock_actual = $request->cantidad;
+                break;
+        }
+        
+        $producto->save();
+        return redirect()->route('inventarios.index')
+        ->with('success', 'Movimiento de inventario registrado correctamente. Stock actualizado: ' . $producto->stock_actual);
     }
 
     public function obtenerInventarios(Request $request)
@@ -40,6 +87,9 @@ class InventarioController extends Controller
 
         return DataTables::of($inventarios)
             ->addIndexColumn()
+            ->addColumn('fecha_movimiento', function ($row) {
+                return Carbon::parse($row->fecha_movimiento)->format('d-m-Y');
+            })
             ->addColumn('producto', function ($row) {
                 return $row->producto ? $row->producto->nombre : '—';
             })
@@ -56,42 +106,45 @@ class InventarioController extends Controller
             })
             ->addColumn('acciones', function ($row) {
                 return '<button class="btn btn-sm btn-info" onclick="verDetalle(' . $row->id . ')" title="Ver detalles">
-                            <i class="fas fa-eye"></i>
+                            <img src="' . asset('assets/icons/eye.svg') . '" alt="Ver" width="16" height="16">
                         </button>';
             })
             ->rawColumns(['stock_producto', 'acciones'])
             ->make(true);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function obtenerDetalle($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $transaccion = Inventario::find($id);
+        
+        if (!$transaccion) {
+            return response()->json(['error' => 'Transacción no encontrada'], 404);
+        }
+        
+        // Determinar qué precio mostrar según el tipo de movimiento
+        $precio = null;
+        $tipo_precio = '';
+        
+        if ($transaccion->tipo_movimiento == 'entrada') {
+            $precio = $transaccion->precio_compra;
+            $tipo_precio = 'Precio de Compra';
+        } elseif ($transaccion->tipo_movimiento == 'salida') {
+            $precio = $transaccion->precio_venta;
+            $tipo_precio = 'Precio de Venta';
+        } elseif ($transaccion->tipo_movimiento == 'ajuste') {
+            $precio = null;
+            $tipo_precio = 'Ajuste de Inventario';
+        }
+        
+        return response()->json([
+            'id'              => $transaccion->id,
+            'producto'        => $transaccion->producto->nombre,
+            'tipo_movimiento' => ucfirst($transaccion->tipo_movimiento),
+            'cantidad'        => $transaccion->cantidad,
+            'precio'          => $precio ? '$' . number_format($precio, 2) : 'No especificado',
+            'tipo_precio'     => $tipo_precio,
+            'motivo'          => $transaccion->motivo ?? 'Sin motivo especificado',
+            'fecha'           => $transaccion->created_at->format('d/m/Y H:i:s')
+        ]);
     }
 }

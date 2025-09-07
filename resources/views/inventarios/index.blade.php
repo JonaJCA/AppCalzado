@@ -57,6 +57,70 @@
         </div>
     </div>
 </div>
+
+<!-- Modal para ver detalles de inventario -->
+<div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalDetallesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="modalDetallesLabel">
+                    <i class="fas fa-info-circle me-2"></i>Detalles del Movimiento
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Loading spinner -->
+                <div id="loadingDetalles" class="text-center">
+                    <div class="spinner-border text-info" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-2">Cargando detalles...</p>
+                </div>
+
+                <!-- Contenido de detalles -->
+                <div id="contenidoDetalles" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0"><i class="fas fa-box me-1"></i>Información del Producto</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Producto:</strong> <span id="detalle-producto"></span></p>
+                                    <p><strong>Cantidad:</strong> <span id="detalle-cantidad"></span></p>
+                                    <p><strong>Fecha:</strong> <span id="detalle-fecha"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0"><i class="fas fa-exchange-alt me-1"></i>Información del Movimiento</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Tipo:</strong> <span id="detalle-tipo" class="badge"></span></p>
+                                    <p><strong><span id="detalle-tipo-precio"></span>:</strong> <span id="detalle-precio" class="text-success fw-bold"></span></p>
+                                    <p><strong>Motivo:</strong> <span id="detalle-motivo"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error message -->
+                <div id="errorDetalles" style="display: none;" class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <span id="mensajeError"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -105,82 +169,44 @@
             });
         });
 
-        /* //Función para eliminar logicamente
-        function confirmarEliminacion(id) {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "Este Producto se marcará como inactivo",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Crear formulario dinámico para enviar DELETE
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = `/AppCalzado/public/productos/${id}`;
+        //Función para mostrar Modal con información detallada
+        function verDetalle(id) {
+            const modal = new bootstrap.Modal(document.getElementById('modalDetalles'));
+            modal.show();
+            $('#loadingDetalles').show();
+            $('#contenidoDetalles').hide();
+            $('#errorDetalles').hide();
+            // petición AJAX
+            $.ajax({
+                url: '{{ url("inventarios/detalle") }}/' + id,
+                method: 'GET',
+                success: function(response) {
+                    $('#loadingDetalles').hide();
+                    $('#detalle-producto').text(response.producto);
+                    $('#detalle-cantidad').text(response.cantidad);
+                    $('#detalle-fecha').text(response.fecha);
+                    $('#detalle-tipo').text(response.tipo_movimiento);
+                    $('#detalle-tipo-precio').text(response.tipo_precio);
+                    $('#detalle-precio').text(response.precio);
+                    $('#detalle-motivo').text(response.motivo);
                     
-                    // Token CSRF
-                    const csrfToken = document.createElement('input');
-                    csrfToken.type = 'hidden';
-                    csrfToken.name = '_token';
-                    csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    
-                    // Method spoofing para DELETE
-                    const methodField = document.createElement('input');
-                    methodField.type = 'hidden';
-                    methodField.name = '_method';
-                    methodField.value = 'DELETE';
-                    
-                    // Agregar campos al formulario
-                    form.appendChild(csrfToken);
-                    form.appendChild(methodField);
-                    
-                    // Enviar formulario
-                    document.body.appendChild(form);
-                    form.submit();
+                    const badge = $('#detalle-tipo');
+                    badge.removeClass('bg-success bg-danger bg-warning');
+                    if (response.tipo_movimiento === 'Entrada') {
+                        badge.addClass('bg-success');
+                    } else if (response.tipo_movimiento === 'Salida') {
+                        badge.addClass('bg-danger');
+                    } else {
+                        badge.addClass('bg-warning');
+                    }
+                    $('#contenidoDetalles').show();
+                },
+                error: function(xhr) {
+                    $('#loadingDetalles').hide();
+                    $('#mensajeError').text('Error al cargar los detalles de la transacción');
+                    $('#errorDetalles').show();
                 }
             });
         }
-
-        //Funcion para restaura un registro
-        function confirmarRestauracion(id) {
-            Swal.fire({
-                title: '¿Restaurar Producto?',
-                text: "Este producto se marcará como activo nuevamente",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#28a745',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Sí, restaurar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = `/AppCalzado/public/productos/${id}/restaurar`;
-                    
-                    // Token CSRF
-                    const csrfToken = document.createElement('input');
-                    csrfToken.type = 'hidden';
-                    csrfToken.name = '_token';
-                    csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    
-                    // Method spoofing para PATCH
-                    const methodField = document.createElement('input');
-                    methodField.type = 'hidden';
-                    methodField.name = '_method';
-                    methodField.value = 'PATCH';
-                    
-                    form.appendChild(csrfToken);
-                    form.appendChild(methodField);
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            });
-        } */
     </script>
 @endsection
