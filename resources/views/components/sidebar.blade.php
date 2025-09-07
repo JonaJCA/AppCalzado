@@ -50,6 +50,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('inventarios.*') ? 'active' : '' }}" href="{{ route('inventarios.index') }}">
+                    <i class="nav-icon cil-basket"></i> Inventario
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="nav-icon cil-chart-pie"></i>
                     <span>Reportes</span>
