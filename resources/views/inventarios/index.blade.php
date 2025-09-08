@@ -24,7 +24,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="mb-0">¡Revisa el inventario de los productos disponibles en el sistema!</p>
                     <a href="{{ route('inventarios.create') }}" class="btn btn-success btn-sm mb-2 text-white fw-bold">
-                        <i class="cil-save"></i> Registrar Nuevo
+                        <i class="fa-solid fa-save"></i> Registrar Nuevo
                     </a>
                 </div>
                 <!-- Tabla de ejemplo -->

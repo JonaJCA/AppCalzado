@@ -114,10 +114,10 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12 col-md-4 mb-2 mb-md-0">
-                                    <button type="submit" class="btn btn-danger w-100"><img src="{{ asset('assets/icons/save.svg') }}" alt="Guardar" width="16" height="16" class="me-1">Guardar</button>
+                                    <button type="submit" class="btn btn-danger w-100"><i class="fa-solid fa-save"></i> Guardar</button>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <a href="{{ route('inventarios.index') }}" class="btn btn-warning w-100">Cancelar</a>
+                                    <a href="{{ route('inventarios.index') }}" class="btn btn-warning w-100"><i class="fa-solid fa-xmark"></i> Cancelar</a>
                                 </div>
                             </div>
                         </form>

@@ -34,10 +34,10 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col-12 col-md-4 mb-2 mb-md-0">
-                                    <button type="submit" class="btn btn-danger w-100">Actualizar</button>
+                                    <button type="submit" class="btn btn-danger w-100"><i class="fa-solid fa-save"></i> Actualizar</button>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <a href="{{ route('marcas.index') }}" class="btn btn-warning w-100">Cancelar</a>
+                                    <a href="{{ route('marcas.index') }}" class="btn btn-warning w-100"><i class="fa-solid fa-xmark"></i> Cancelar</a>
                                 </div>
                             </div>
                         </form>

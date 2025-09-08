@@ -38,6 +38,12 @@
             background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
             pointer-events: none;
         }
+
+        #tabla-salidas thead th {
+            background-color: #212529 !important;
+            color: #fff !important;
+            border-color: #32383e !important;
+        }
     </style>
 @endsection
 
@@ -97,8 +103,8 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
+                            <table id="tabla-salidas" class="table table-striped">
+                                <thead class="table-dark">
                                     <tr>
                                         <th>Nº</th>
                                         <th>Producto</th>
@@ -112,7 +118,7 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $salida->producto->nombre }}</td>
                                             <td>{{ $salida->cantidad }}</td>
-                                            <td>${{ number_format($salida->precio_venta, 2) }}</td>
+                                            <td>S/ {{ number_format($salida->precio_venta, 2) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
