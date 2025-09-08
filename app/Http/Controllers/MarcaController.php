@@ -47,15 +47,15 @@ class MarcaController extends Controller
                 if ($row->estado) {
                     $editUrl = route('marcas.edit', $row->id);
                     return '<a href="'.$editUrl.'" class="btn btn-sm btn-warning">
-                                <img src="'.asset('assets/icons/pencil.svg').'" alt="Editar" width="16" height="16">
+                                <i class="fa-solid fa-pen text-white"></i>
                             </a>
                             <button class="btn btn-sm btn-danger" onclick="confirmarEliminacion('.$row->id.')">
-                                <img src="'.asset('assets/icons/trash.svg').'" alt="Eliminar" width="16" height="16" style="filter: brightness(0) invert(1);">
+                                <i class="fa-solid fa-trash text-white"></i>
                             </button>';
                 } else {
                     // Si está inactivo: mostrar solo botón Restaurar
                     return '<button class="btn btn-sm btn-success" onclick="confirmarRestauracion('.$row->id.')">
-                                <img src="'.asset('assets/icons/sync.svg').'" alt="Restaurar" width="16" height="16">
+                                <i class="fa-solid fa-rotate-right text-white"></i>
                             </button>';
                 }   
             })

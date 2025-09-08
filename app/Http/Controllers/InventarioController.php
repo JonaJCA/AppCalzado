@@ -106,7 +106,7 @@ class InventarioController extends Controller
             })
             ->addColumn('acciones', function ($row) {
                 return '<button class="btn btn-sm btn-info" onclick="verDetalle(' . $row->id . ')" title="Ver detalles">
-                            <img src="' . asset('assets/icons/eye.svg') . '" alt="Ver" width="16" height="16">
+                            <i class="fa-solid fa-eye"></i>
                         </button>';
             })
             ->rawColumns(['stock_producto', 'acciones'])
@@ -141,7 +141,7 @@ class InventarioController extends Controller
             'producto'        => $transaccion->producto->nombre,
             'tipo_movimiento' => ucfirst($transaccion->tipo_movimiento),
             'cantidad'        => $transaccion->cantidad,
-            'precio'          => $precio ? '$' . number_format($precio, 2) : 'No especificado',
+            'precio'          => $precio ? 'S/ ' . number_format($precio, 2) : 'No especificado',
             'tipo_precio'     => $tipo_precio,
             'motivo'          => $transaccion->motivo ?? 'Sin motivo especificado',
             'fecha'           => $transaccion->created_at->format('d/m/Y H:i:s')
