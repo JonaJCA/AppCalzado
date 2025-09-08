@@ -5,6 +5,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\TallaController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
@@ -54,4 +55,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/productos/data', [ProductoController::class, 'obtenerProductos'])->name('productos.data');
     Route::resource('/productos', ProductoController::class);
     Route::patch('productos/{producto}/restaurar', [ProductoController::class, 'restaurar'])->name('productos.restaurar');
+
+    Route::get('/inventarios/data', [InventarioController::class, 'obtenerInventarios'])->name('inventarios.data');
+    Route::get('/inventarios/detalle/{id}', [InventarioController::class, 'obtenerDetalle'])->name('inventarios.detalle');
+    Route::resource('/inventarios', InventarioController::class);
 });

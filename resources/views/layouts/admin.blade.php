@@ -9,7 +9,7 @@
     <link href="{{ asset('assets/css/coreui.min.css') }}" rel="stylesheet">
     @yield('css')
     <!-- CoreUI Icons (CDN temporal para iconos) -->
-    <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         html, body {
