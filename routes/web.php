@@ -7,6 +7,7 @@ use App\Http\Controllers\TallaController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ModeloController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,9 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/admin/mi-perfil', [PerfilController::class, 'edit'])->name('perfil.edit');
+    Route::put('/admin/mi-perfil/informacion', [PerfilController::class, 'updateInfo'])->name('perfil.update.info');
+    Route::put('/admin/mi-perfil/password', [PerfilController::class, 'updatePassword'])->name('perfil.update.password');
 
     Route::get('/tallas/data', [TallaController::class, 'obtenerTallas'])->name('tallas.data');
     Route::resource('/tallas', TallaController::class);
