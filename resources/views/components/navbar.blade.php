@@ -34,7 +34,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <h6 class="dropdown-header">Cuenta</h6>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('perfil.edit') }}">
                         <i class="fa-solid fa-user"></i> Mi Perfil
                     </a>
                     <a class="dropdown-item" href="#">
