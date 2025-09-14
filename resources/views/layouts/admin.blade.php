@@ -75,6 +75,46 @@
             color: var(--cui-body-color) !important;
         }
 
+        /* Select2 Dark Mode */
+        [data-coreui-theme="dark"] .select2-container--default .select2-selection--single {
+            background-color: var(--cui-body-bg) !important;
+            border: 1px solid var(--cui-border-color) !important;
+            color: var(--cui-body-color) !important;
+        }
+
+        [data-coreui-theme="dark"] .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: var(--cui-body-color) !important;
+        }
+
+        [data-coreui-theme="dark"] .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: var(--cui-secondary-color) !important;
+        }
+
+        [data-coreui-theme="dark"] .select2-dropdown {
+            background-color: var(--cui-body-bg) !important;
+            border: 1px solid var(--cui-border-color) !important;
+        }
+
+        [data-coreui-theme="dark"] .select2-container--default .select2-results__option {
+            background-color: var(--cui-body-bg) !important;
+            color: var(--cui-body-color) !important;
+        }
+
+        [data-coreui-theme="dark"] .select2-container--default .select2-results__option--highlighted {
+            background-color: var(--cui-primary) !important;
+            color: white !important;
+        }
+
+        [data-coreui-theme="dark"] .select2-container--default .select2-search--dropdown .select2-search__field {
+            background-color: var(--cui-body-bg) !important;
+            color: var(--cui-body-color) !important;
+            border: 1px solid var(--cui-border-color) !important;
+        }
+
+        [data-coreui-theme="dark"] .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: var(--cui-body-color) transparent transparent transparent !important;
+        }
+
         /* Estilo del chevron */
         .nav-chevron {
             margin-left: auto;
