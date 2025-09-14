@@ -1,4 +1,4 @@
-<header class="header header-sticky">
+<header class="header header-sticky mb-4">
     <div class="container-fluid">
         <button class="header-toggler px-md-0 me-md-3" type="button" onclick="toggleSidebar()">
             <i class="fa-solid fa-bars"></i>
@@ -37,8 +37,8 @@
                     <a class="dropdown-item" href="{{ route('perfil.edit') }}">
                         <i class="fa-solid fa-user"></i> Mi Perfil
                     </a>
-                    <a class="dropdown-item" href="#">
-                        <i class="fa-solid fa-gear"></i> Configuración
+                    <a class="dropdown-item" href="#" id="theme-toggle">
+                        <i class="fa-solid fa-moon" id="theme-icon"></i> <span id="theme-text">Modo Oscuro</span>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

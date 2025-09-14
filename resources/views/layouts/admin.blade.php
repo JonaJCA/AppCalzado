@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-coreui-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,6 +52,27 @@
 
         .nav-dropdown-items .nav-link {
             padding-left: 3rem;
+        }
+
+        [data-coreui-theme="dark"] .header {
+            background-color: var(--cui-dark) !important;
+            border-bottom: 1px solid var(--cui-border-color-translucent);
+        }
+
+        [data-coreui-theme="dark"] .header .nav-link {
+            color: var(--cui-body-color) !important;
+        }
+
+        [data-coreui-theme="dark"] .header .nav-link:hover {
+            color: var(--cui-primary) !important;
+        }
+
+        [data-coreui-theme="dark"] .header .header-toggler {
+            color: var(--cui-body-color) !important;
+        }
+
+        [data-coreui-theme="dark"] .avatar i {
+            color: var(--cui-body-color) !important;
         }
 
         /* Estilo del chevron */
@@ -203,5 +224,39 @@
     <script src="{{ asset('assets/js/sweetalert2@11.js') }}"></script>
     @yield('js')
     @include('partials.alerts')
+    <!-- Funcion para mode Dark -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            const htmlElement = document.documentElement;
+
+            // Verificar si hay tema guardado en localStorage
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+
+            // Evento click del toggle
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const currentTheme = htmlElement.getAttribute('data-coreui-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                setTheme(newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
+
+            function setTheme(theme) {
+                htmlElement.setAttribute('data-coreui-theme', theme);
+                
+                if (theme === 'dark') {
+                    themeIcon.className = 'fa-solid fa-sun';
+                    themeText.textContent = 'Modo Claro';
+                } else {
+                    themeIcon.className = 'fa-solid fa-moon';
+                    themeText.textContent = 'Modo Oscuro';
+                }
+            }
+        });
+    </script>
 </body>
 </html>
