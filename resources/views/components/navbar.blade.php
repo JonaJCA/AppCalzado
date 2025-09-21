@@ -1,6 +1,6 @@
 <header class="header header-sticky mb-4">
     <div class="container-fluid">
-        <button class="header-toggler px-md-0 me-md-3" type="button" onclick="toggleSidebar()">
+        <button class="header-toggler sidebar-toggler px-md-0 me-md-3" type="button" onclick="toggleSidebar()">
             <i class="fa-solid fa-bars"></i>
         </button>
         
