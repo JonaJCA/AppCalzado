@@ -82,7 +82,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="card h-100">
-                                <div class="card-header bg-light">
+                                <div class="card-header">
                                     <h6 class="mb-0"><i class="fas fa-box me-1"></i>Información del Producto</h6>
                                 </div>
                                 <div class="card-body">
@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="card h-100">
-                                <div class="card-header bg-light">
+                                <div class="card-header">
                                     <h6 class="mb-0"><i class="fas fa-exchange-alt me-1"></i>Información del Movimiento</h6>
                                 </div>
                                 <div class="card-body">

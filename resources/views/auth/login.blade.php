@@ -56,11 +56,11 @@
                                     Iniciar Sesión
                                 </button>
 
-                                @if (Route::has('password.request'))
+                                {{-- @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         Olvidaste tu contraseña
                                     </a>
-                                @endif
+                                @endif --}}
                             </div>
                         </div>
                     </form>

@@ -1,4 +1,4 @@
-<div class="sidebar sidebar-fixed">
+<div class="sidebar sidebar-fixed" id="sidebar">
     <div class="sidebar-brand">
         <strong>AppCalzado</strong>
     </div>
