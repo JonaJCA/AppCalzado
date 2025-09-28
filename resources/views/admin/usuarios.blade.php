@@ -98,7 +98,7 @@
             });
         });
 
-        /* //Función para eliminar logicamente
+        //Función para eliminar logicamente
         function confirmarEliminacion(id) {
             Swal.fire({
                 title: '¿Estás seguro?',
@@ -114,7 +114,7 @@
                     // Crear formulario dinámico para enviar DELETE
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `/AppCalzado/public/marcas/${id}`;
+                    form.action = `{{ url('admin/usuarios') }}/${id}`;
                     
                     // Token CSRF
                     const csrfToken = document.createElement('input');
@@ -154,7 +154,7 @@
                 if (result.isConfirmed) {
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `/AppCalzado/public/marcas/${id}/restaurar`;
+                    form.action = `{{ url('admin/usuarios') }}/${id}/restaurar`;
                     
                     // Token CSRF
                     const csrfToken = document.createElement('input');
@@ -174,6 +174,6 @@
                     form.submit();
                 }
             });
-        } */
+        }
     </script>
 @endsection

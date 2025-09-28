@@ -46,11 +46,8 @@ class AdminController extends Controller
         return DataTables::of($usuarios)
             ->addIndexColumn()
             ->addColumn('acciones', function($row) {
-                if ($row->estado) {
-                    $editUrl = route('marcas.edit', $row->id);
-                    return '<a href="'.$editUrl.'" class="btn btn-sm btn-warning">
-                                <i class="fa-solid fa-pen text-white"></i>
-                            </a>
+                if ($row->estado) {                    
+                    return '
                             <button class="btn btn-sm btn-danger" onclick="confirmarEliminacion('.$row->id.')">
                                 <i class="fa-solid fa-trash text-white"></i>
                             </button>';
@@ -92,5 +89,23 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.usuarios')->with('success', 'Usuario creado exitosamente');
+    }
+
+    public function destroy(User $user)
+    {
+        if (!$user->estado) {
+            return redirect()->route('admin.usuarios')->with('warning', 'El Usuario ya está deshabilitado');
+        }
+        $user->update(['estado' => false]);
+        return redirect()->route('admin.usuarios')->with('success', 'Usuario deshabilitado correctamente');
+    }
+
+    public function restaurar(User $user)
+    {
+        if ($user->estado) {
+            return redirect()->route('admin.usuarios')->with('warning', 'El Usuario ya está habilitado');
+        }
+        $user->update(['estado' => true]);
+        return redirect()->route('admin.usuarios')->with('success', 'Usuario restaurado correctamente');
     }
 }

@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/usuarios', [AdminController::class, 'listarUsuarios'])->name('admin.usuarios');
     Route::get('/admin/agregar-usuario', [AdminController::class, 'crearUsuario'])->name('admin.crear-usuario');
     Route::post('/admin/agregar-usuario', [AdminController::class, 'guardarUsuario'])->name('admin.guardar-usuario');
+    Route::delete('/admin/usuarios/{user}', [AdminController::class, 'destroy'])->name('admin.usuarios.destroy');
+    Route::patch('/admin/usuarios/{user}/restaurar', [AdminController::class, 'restaurar'])->name('admin.usuarios.restaurar');
 
     Route::get('/tallas/data', [TallaController::class, 'obtenerTallas'])->name('tallas.data');
     Route::resource('/tallas', TallaController::class);
