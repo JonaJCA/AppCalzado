@@ -36,6 +36,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/mi-perfil/informacion', [PerfilController::class, 'updateInfo'])->name('perfil.update.info');
     Route::put('/admin/mi-perfil/password', [PerfilController::class, 'updatePassword'])->name('perfil.update.password');
 
+    Route::get('/usuarios/data', [AdminController::class, 'obtenerUsuarios'])->name('usuarios.data');
+    Route::get('/admin/usuarios', [AdminController::class, 'listarUsuarios'])->name('admin.usuarios');
+    Route::get('/admin/agregar-usuario', [AdminController::class, 'crearUsuario'])->name('admin.crear-usuario');
+    Route::post('/admin/agregar-usuario', [AdminController::class, 'guardarUsuario'])->name('admin.guardar-usuario');
+
     Route::get('/tallas/data', [TallaController::class, 'obtenerTallas'])->name('tallas.data');
     Route::resource('/tallas', TallaController::class);
     Route::patch('tallas/{talla}/restaurar', [TallaController::class, 'restaurar'])->name('tallas.restaurar');

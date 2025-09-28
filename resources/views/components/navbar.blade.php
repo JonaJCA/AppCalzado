@@ -37,6 +37,9 @@
                     <a class="dropdown-item" href="{{ route('perfil.edit') }}">
                         <i class="fa-solid fa-user"></i> Mi Perfil
                     </a>
+                    <a class="dropdown-item" href="{{ route('admin.crear-usuario') }}">
+                        <i class="fa-solid fa-user-plus"></i> Registrar Usuario
+                    </a>
                     <a class="dropdown-item" href="#" id="theme-toggle">
                         <i class="fa-solid fa-moon" id="theme-icon"></i> <span id="theme-text">Modo Oscuro</span>
                     </a>

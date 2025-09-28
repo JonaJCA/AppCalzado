@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use App\Models\Inventario;
 use App\Models\Producto;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
 {
@@ -23,5 +26,71 @@ class AdminController extends Controller
                         ->get();
 
         return view('admin.dashboard', compact('estadisticas', 'ultimasSalidas'));
+    }
+
+    public function listarUsuarios()
+    {
+        return view('admin.usuarios');
+    }
+
+    public function obtenerUsuarios(Request $request)
+    {
+        if (!$request->ajax()) {
+            $usuarios = User::select('id', 'name', 'email', 'estado')->get();
+            return response()->json($usuarios);
+        }
+        
+        // Para peticiones AJAX de DataTables
+        $usuarios = User::select('id', 'name', 'email', 'estado');
+        
+        return DataTables::of($usuarios)
+            ->addIndexColumn()
+            ->addColumn('acciones', function($row) {
+                if ($row->estado) {
+                    $editUrl = route('marcas.edit', $row->id);
+                    return '<a href="'.$editUrl.'" class="btn btn-sm btn-warning">
+                                <i class="fa-solid fa-pen text-white"></i>
+                            </a>
+                            <button class="btn btn-sm btn-danger" onclick="confirmarEliminacion('.$row->id.')">
+                                <i class="fa-solid fa-trash text-white"></i>
+                            </button>';
+                } else {
+                    // Si está inactivo: mostrar solo botón Restaurar
+                    return '<button class="btn btn-sm btn-success" onclick="confirmarRestauracion('.$row->id.')">
+                                <i class="fa-solid fa-rotate-right text-white"></i>
+                            </button>';
+                }   
+            })
+            ->addColumn('estado', function($row) {
+                if ($row->estado) {
+                    return '<span class="badge rounded-pill bg-success">Activo</span>';
+                } else {
+                    return '<span class="badge rounded-pill bg-danger">Inactivo</span>';
+                }
+            })
+            ->rawColumns(['acciones', 'estado'])
+            ->make(true);
+    }
+
+    public function crearUsuario()
+    {
+        return view('admin.crear-usuario');
+    }
+
+    public function guardarUsuario(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.usuarios')->with('success', 'Usuario creado exitosamente');
     }
 }

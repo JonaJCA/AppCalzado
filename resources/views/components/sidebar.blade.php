@@ -44,6 +44,20 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="javascript:void(0)">
+                    <i class="nav-icon fa-solid fa-gears"></i>
+                    <span>Gestión Usuarioss</span>
+                    <i class="nav-chevron fa-solid fa-chevron-right"></i>
+                </a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.usuarios') ? 'active' : '' }}" href="{{ route('admin.usuarios') }}">
+                            <i class="nav-icon fa-solid fa-users"></i> Usuarios
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('productos.*') ? 'active' : '' }}" href="{{ route('productos.index') }}">
                     <i class="nav-icon fa-solid fa-box-open"></i> Productos
