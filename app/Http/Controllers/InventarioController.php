@@ -21,6 +21,19 @@ class InventarioController extends Controller
         return view('inventarios.create', compact('productos'));
     }
 
+    public function obtenerPrecioCompra($producto_id)
+    {
+        $ultimaEntrada = Inventario::where('producto_id', $producto_id)
+            ->where('tipo_movimiento', 'entrada')
+            ->whereNotNull('precio_compra')
+            ->orderBy('id', 'desc')
+            ->first();
+        
+        $precio = $ultimaEntrada ? $ultimaEntrada->precio_compra : Producto::find($producto_id)->precio_compra;
+        
+        return response()->json(['precio_compra' => $precio]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -44,7 +57,7 @@ class InventarioController extends Controller
             }
         }
 
-        $inventario = Inventario::create([
+        $datosInventario = [
             'producto_id'      => $request->producto_id,
             'tipo_movimiento'  => $request->tipo_movimiento,
             'cantidad'         => $request->cantidad,
@@ -52,7 +65,25 @@ class InventarioController extends Controller
             'motivo'           => $request->motivo,
             'precio_compra'    => $request->precio_compra,
             'precio_venta'     => $request->precio_venta,
-        ]);
+        ];
+
+        if ($request->tipo_movimiento === 'salida') {
+            if (!$request->precio_compra) {
+                $ultimaEntrada = Inventario::where('producto_id', $request->producto_id)
+                    ->where('tipo_movimiento', 'entrada')
+                    ->whereNotNull('precio_compra')
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                if ($ultimaEntrada) {
+                    $datosInventario['precio_compra'] = $ultimaEntrada->precio_compra;
+                } else {
+                    $datosInventario['precio_compra'] = $producto->precio_compra;
+                }
+            }
+        }
+
+        Inventario::create($datosInventario);
 
         switch ($request->tipo_movimiento) {
             case 'entrada':

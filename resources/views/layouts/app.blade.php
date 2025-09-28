@@ -94,6 +94,14 @@
             color: #ffffff;
             text-decoration: underline;
         }
+
+        .logo-img {
+            max-width: 200px;
+            max-height: 80px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
         
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -120,7 +128,7 @@
                     <div class="auth-card">
                         <!-- Logo/Título -->
                         <div class="auth-logo">
-                            <h2>{{ config('app.name', 'Mi Sistema') }}</h2>
+                            <img src="{{ asset('assets/images/imagen.png') }}" alt="Logo" class="logo-img mb-3">
                             <p class="text-muted">Sistema de Inventario</p>
                         </div>
 

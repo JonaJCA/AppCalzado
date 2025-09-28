@@ -139,6 +139,37 @@
                 allowClear: true,
                 width: '100%'
             });
+
+            function cargarPrecioCompra() {
+                console.log('=== DEBUG ===');
+                console.log('Tipo movimiento:', $('#tipo_movimiento').val());
+                console.log('Producto ID:', $('#producto_id').val());
+                
+                if ($('#tipo_movimiento').val() === 'salida' && $('#producto_id').val()) {
+                    console.log('Haciendo fetch...');
+                    
+                    $('#precio_compra').val('Cargando...');
+                    
+                    $.ajax({
+                        url: `{{ url('/inventarios/precio-compra') }}/${$('#producto_id').val()}`,
+                        type: 'GET',
+                        success: function(data) {
+                            console.log('Datos recibidos:', data);
+                            $('#precio_compra').val(data.precio_compra);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
+                            $('#precio_compra').val('');
+                        }
+                    });
+                } else if ($('#tipo_movimiento').val() !== 'salida') {
+                    $('#precio_compra').val('');
+                }
+            }
+            $('#tipo_movimiento').on('change', cargarPrecioCompra);
+            $('#producto_id').on('select2:select', cargarPrecioCompra);
         });
+
+        
     </script>
 @endsection

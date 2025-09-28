@@ -115,7 +115,7 @@
                     // Crear formulario dinámico para enviar DELETE
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `/AppCalzado/public/marcas/${id}`;
+                    form.action = `{{ route('marcas.destroy', '') }}/${id}`;
                     
                     // Token CSRF
                     const csrfToken = document.createElement('input');
@@ -155,7 +155,7 @@
                 if (result.isConfirmed) {
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `/AppCalzado/public/marcas/${id}/restaurar`;
+                    form.action = `{{ url('marcas') }}/${id}/restaurar`;
                     
                     // Token CSRF
                     const csrfToken = document.createElement('input');
