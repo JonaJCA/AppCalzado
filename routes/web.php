@@ -69,5 +69,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/inventarios/data', [InventarioController::class, 'obtenerInventarios'])->name('inventarios.data');
     Route::get('/inventarios/detalle/{id}', [InventarioController::class, 'obtenerDetalle'])->name('inventarios.detalle');
+    Route::get('/inventarios/precio-compra/{producto}', [InventarioController::class, 'obtenerPrecioCompra'])
+    ->name('inventarios.precio-compra');
     Route::resource('/inventarios', InventarioController::class);
 });

@@ -23,7 +23,35 @@ class AdminController extends Controller
                         ->where('tipo_movimiento', 'salida')
                         ->orderBy('created_at', 'desc')
                         ->take(5)
-                        ->get();
+                        ->get()
+                        ->map(function ($salida) {
+                            $precioCompraReal = $salida->precio_compra;
+
+                            if (!$precioCompraReal || $precioCompraReal == 0) {
+                                // Buscar última entrada
+                                $ultimaEntrada = Inventario::where('producto_id', $salida->producto_id)
+                                    ->where('tipo_movimiento', 'entrada')
+                                    ->whereNotNull('precio_compra')
+                                    ->orderBy('id', 'desc')
+                                    ->first();
+                                    
+                                $precioCompraReal = $ultimaEntrada ? 
+                                    $ultimaEntrada->precio_compra : 
+                                    $salida->producto->precio_compra;
+                            }
+                            // Calculamos la ganancia por unidad
+                            $gananciaPorUnidad = $salida->precio_venta - $precioCompraReal;
+                            
+                            // Calculamos la ganancia total (ganancia por unidad × cantidad)
+                            $gananciaTotal = $gananciaPorUnidad * $salida->cantidad;
+                            
+                            // Agregamos los campos calculados al objeto
+                            $salida->precio_compra_mostrar = $precioCompraReal;
+                            $salida->ganancia_por_unidad = $gananciaPorUnidad;
+                            $salida->ganancia_total = $gananciaTotal;
+                            
+                            return $salida;
+                        });
 
         return view('admin.dashboard', compact('estadisticas', 'ultimasSalidas'));
     }

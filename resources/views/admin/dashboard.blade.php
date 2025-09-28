@@ -99,7 +99,7 @@
                 <!-- Tabla de ejemplo -->
                 <div class="card">
                     <div class="card-header">
-                        <h5>Últimos Productos</h5>
+                        <h5><i class="fa-solid fa-coins"></i> Últimos Productos - Vendidos</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -109,7 +109,10 @@
                                         <th>Nº</th>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
-                                        <th>Precio</th>
+                                        <th>Precio Compra</th>
+                                        <th>Precio Venta</th>
+                                        <th>Ganancia Unitaria</th>
+                                        <th>Ganancia Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,7 +121,10 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $salida->producto->nombre }}</td>
                                             <td>{{ $salida->cantidad }}</td>
+                                            <td>S/ {{ number_format($salida->precio_compra_mostrar, 2) }}</td>
                                             <td>S/ {{ number_format($salida->precio_venta, 2) }}</td>
+                                            <td>S/ {{ number_format($salida->ganancia_por_unidad, 2) }}</td>                                             
+                                            <td>S/ {{ number_format($salida->ganancia_total, 2) }}</td>  
                                         </tr>
                                     @endforeach
                                 </tbody>
